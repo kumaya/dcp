@@ -1,0 +1,8 @@
+*.log
+*.pyc
+*.sqlite
+*.swp
+*.idea
+test*
+AUTHORS
+Authors
