@@ -10,18 +10,37 @@ class Node:
         self.right = right
 
 
-def serialize(node, s, w, k):
+def serialize(node, l):
     if not node:
-        return s
+        l.append(-1)
     else:
-        left = serialize(node.left, s, 'l', k+1)
-        s += str(k) + w + "." + node.val + ","
-        right = serialize(node.right, s, 'r', k+1)
-        return left + right
+        l.append(node.val)
+        serialize(node.left, l)
+        serialize(node.right, l)
+    return " ".join(str(x) for x in l)
+
+
+def deserialize(s):
+    serializedLst = s.split(" ")
+    if len(serializedLst) == 0:
+        return Node(None)
+    return formTree(serializedLst)
+
+
+def formTree(serializedLst):
+    if len(serializedLst) > 0:
+        val = serializedLst.pop(0)
+        if val != '-1':
+            node = Node(val)
+            node.left = formTree(serializedLst)
+            node.right = formTree(serializedLst)
+        else:
+            node = Node(None)
+    return node
 
 
 if __name__ == "__main__":
     node = Node('root', Node('left', Node('left.left')), Node('right'))
-    s = ""
-    se = serialize(node, s, '', k=0)
-    print se
+    print serialize(node, [])
+    serializedString = serialize(node, [])
+    assert deserialize(serializedString).left.left.val == 'left.left'
