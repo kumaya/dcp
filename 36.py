@@ -18,16 +18,16 @@ def inorder(node, v=[]):
     return v
 
 
-def rev_inorder(node, v=[0]):
-    if not node or v[0] >= 2:
+def rev_inorder(node, k, v):
+    if not node or v[0] >= k:
         return
     else:
-        rev_inorder(node.right, v)
+        rev_inorder(node.right, k, v)
         v[0] += 1
-        if v[0] == 2:
+        if v[0] == k:
             print node.val
             return
-        rev_inorder(node.left, v)
+        rev_inorder(node.left, k, v)
 
 
 def search(node):
@@ -54,8 +54,19 @@ def search_iter(node):
 
 
 if __name__ == "__main__":
-    node = Node(8, Node(3, Node(1), Node(6, Node(4), Node(7))), Node(10, None, Node(14, Node(13))))
+    node = Node(8, Node(3, Node(1),
+                        Node(6, Node(4),
+                             Node(7))
+                        ),
+                Node(10, None,
+                     Node(14, Node(13)
+                          )
+                     )
+                )
     print "Second largest node with space:", search(node)
     print "Second largest node iteratively:", search_iter(node)
     print "second largest node using recursion:",
-    rev_inorder(node)
+    rev_inorder(node, k=2, v=[0])
+    k = 5
+    print("%dth largest node:" % k),
+    rev_inorder(node, k, v=[0])
