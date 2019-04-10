@@ -13,10 +13,14 @@ def convToFullBinaryTree(root):
         return root
     root.l = convToFullBinaryTree(root.l)
     root.r = convToFullBinaryTree(root.r)
-    if not root.l and root.r:
+    # if node has both children return node
+    if root.l and root.r:
+        return root
+    elif root.r:
         return root.r
-    elif root.l and not root.r:
+    elif root.l:
         return root.l
+    # if node is a leaf node
     else:
         return root
 
